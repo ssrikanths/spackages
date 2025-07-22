@@ -19,13 +19,13 @@ jobs:
         dotnet-version: '8.0.x'  # or your chosen version
 
     - name: Restore dependencies
-      run: dotnet restore SBusiness.Framework/SBusiness.Framework.csproj
+      run: dotnet restore SBusiness.Framework.csproj
 
     - name: Build
-      run: dotnet build SBusiness.Framework/SBusiness.Framework.csproj --configuration Release
+      run: dotnet build SBusiness.Framework.csproj --configuration Release
 
     - name: Pack NuGet package
-      run: dotnet pack SBusiness.Framework/SBusiness.Framework.csproj --configuration Release --output ./nupkg
+      run: dotnet pack SBusiness.Framework.csproj --configuration Release --output ./nupkg
 
     - name: Publish to GitHub Packages
       run: dotnet nuget push ./nupkg/*.nupkg \
