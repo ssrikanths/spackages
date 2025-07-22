@@ -1,0 +1,33 @@
+name: Build and Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - main  # or whichever branch you deploy from
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'  # or your chosen version
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Pack NuGet package
+      run: dotnet pack --configuration Release --output ./nupkg
+
+    - name: Publish to GitHub Packages
+      run: dotnet nuget push ./nupkg/*.nupkg \
+        --source "https://nuget.pkg.github.com/ssrikanths/index.json" \
+        --api-key ${{ secrets.GITHUB_TOKEN }}
